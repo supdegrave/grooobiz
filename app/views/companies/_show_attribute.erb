@@ -1,0 +1,22 @@
+<style>
+	.company-attribute-label {
+		font-weight: bold;
+		margin-bottom: 0.2em;
+	}
+	.company-attribute-value {
+		margin-bottom: 1em;
+	}
+</style>
+
+<div class='company-attribute-label'>
+	<%= local_assigns[:label].nil? ? 
+		attribute.capitalize : 
+		label %>
+</div>
+<div class='company-attribute-value'>
+	<%= !local_assigns[:value].nil? ? 
+		value : 
+		!local_assigns[:capture].nil? ? 
+			capture : 
+			@company.send(attribute) %>
+</div>

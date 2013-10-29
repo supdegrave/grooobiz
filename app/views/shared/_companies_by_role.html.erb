@@ -1,0 +1,12 @@
+<% 
+role = locals[:role] 
+user = locals[:user] ||= current_user
+%>
+<% if !user.companies_by_role(role).empty? %>
+	<strong><%= role.to_s.capitalize %></strong>
+	<ul>
+	<% user.companies_by_role(role).each do |c| %>
+		<li><%=link_to c.name, c %></li>
+	<% end %>
+	</ul>
+<% end %>

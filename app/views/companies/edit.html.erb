@@ -1,0 +1,15 @@
+<h3><%= @company.name %></h3>
+
+<div style='vertical-align:top;'>
+	<span style='width:30%; display:inline-block; vertical-align:top; float:right;'>
+		<% @company.allowed_roles.each do |role| %> 
+		<%= render 'users_by_role', :locals => { :role => role } %>
+		<% end %>
+	</span>
+	<span style='width:58%; display:inline-block;'>
+		<%= render 'form' %>
+	</span>
+</div>
+
+<%= link_to 'Show', @company %> |
+<%= link_to 'Back', companies_path %>

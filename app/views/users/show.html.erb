@@ -1,3 +1,15 @@
-<h3>User</h3>
-<p>User: <%= @user.name %></p>
-<p>Email: <%= @user.email if @user.email %></p>
+<h4><%= @user.name %></h4>
+<p><%= 'Email: ' + @user.email if @user.email %></p>
+
+
+<p><%= image_tag @user.avatar.url %></p>
+<p><%= image_tag @user.avatar.thumb.url %></p>
+<p><%= image_tag @user.avatar.small_thumb.url %></p>
+<p><%= image_tag @user.avatar.sprite.url %></p> 
+
+
+<h5>Companies</h5>
+<%= render 'shared/companies_by_role', :locals => { :role => :principal, :user => @user } %>
+<%= render 'shared/companies_by_role', :locals => { :role => :angel, :user => @user } %>
+<%= render 'shared/companies_by_role', :locals => { :role => :investor, :user => @user } %>
+

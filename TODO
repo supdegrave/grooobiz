@@ -1,0 +1,45 @@
+views/companies/add_role
+- convert to :remote model 
+
+views/companies/revoke_role.js.erb 
+	- TODO: do not allow user with :owner role to be removed
+	- TODO: sort selectAddUser options after insertion
+
+- ensure that at least one principal / owner exists 
+	- removal of current owner requires assignment of new owner from existing principals 
+
+- integrate location and categories
+	- type-ahead search for each
+
+- image upload with scaling 
+
+- make users searchable for adding to roles 
+- all values: http://railscasts.com/episodes/111-advanced-search-form  
+- ajax: 
+	<%= observe_field("userinfo_department_id",
+	:on => "changed",
+	:update => "userinfo_role_id",
+	:url => {:action => :update_roles},
+	:with => "'department_id='+value") %>
+
+models/company.rb 
+- figure out dynamic method definition code 
+
+- make sure that roles aren't left behind when companies / users are removed 
+	- this means checking whether anyone else has the same role
+
+- wire in email 
+- figure out why 'remember me' isn't working on login
+
+
+# *** LATER / MAYBE *** 
+# MODEL: phone 
+# - country code
+# - number 
+# - label 
+# 
+# UPDATES to User: 
+# - has_many phones
+# 
+# UPDATES to Company:  
+# - has_many phones

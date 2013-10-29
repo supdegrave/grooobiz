@@ -1,0 +1,11 @@
+<%= form_for @company do |f| %>
+<%= f.hidden_field :add_role, :value => role %>
+<%= f.collection_select :id, 
+	User.all.find_all { |user| !user.has_role? role, @company }, # only users who don't already have role/company
+	:id, 
+	:name, 
+	{ :include_blank => true },
+	{ :class => 'select ' + role } 
+%>
+<%= f.submit 'Add ' + role.to_s.capitalize %>
+<% end %> 

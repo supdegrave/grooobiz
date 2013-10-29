@@ -1,0 +1,43 @@
+<% if current_user.can_edit? @company %>
+<div class="table">
+	<div class="row">
+		<span class="cell">
+			<%= image_tag @company.logo.url %>
+		</span>
+		<span class="cell">
+			<h4><%= @company.name %></h4>
+			<span>Launched <%= @company.launch_date %></span>
+		</span>
+		<span class="cell">
+			<%= link_to 'Edit', edit_company_path(@company) %> 
+			<% end %>
+		</span>
+	</div>
+</div>
+
+<hr/>
+
+<span style='width:20%; float:right; margin-left:5em;'>
+	<% @company.allowed_roles.each do |role| %> 
+	<%= render 'users_by_role', :locals => { :role => role } %>
+	<% end %>
+</span>
+
+<span>
+	<%= render 'show_attribute', 
+				:attribute => :tagline %>
+	<%= render 'show_attribute', 
+				:attribute => :description %>
+	<%= render 'show_attribute', 
+				:attribute => :audience %>
+	<%= render 'show_attribute', 
+				:attribute => :location, 
+				:value => @company.location.name %>
+	<%= render 'show_attribute', 
+				:label => 'Categories', 
+				:capture => capture { %>
+					<% @company.categories.each do |cat| %>
+					<%= link_to cat.name, cat %><%= ', ' if cat != @company.categories.last %>
+					<% end %>
+	<% } %>
+</span>

@@ -1,0 +1,26 @@
+<h3>Listing companies</h3>
+
+<% @companies.each do |company| %>
+<div style='border-bottom:1px solid #333;'>
+	<% if current_user.can_edit?(company) %>
+	<div style='float:right;'>
+		<span><%= link_to 'Edit', edit_company_path(company) %> &nbsp;</span>
+		<span><%= link_to 'Delete', company, method: :delete, data: { confirm: 'Are you sure?' } %></span>
+	</div>
+	<% end %>
+	<h4 style='display:inline;'><%= link_to company.name, company %></h4>
+</div>
+<div><%= company.description %></div>
+<div>
+	<%= 'People:' if not company.users.empty? %>
+	<ul>
+	<% company.users.each do |user| %>
+		<li><%= link_to user.name, user %></li>
+	<% end %>
+	</ul>
+</div>
+<br/>
+<% end %>
+
+<br/>
+<%= link_to 'New Company', new_company_path %>

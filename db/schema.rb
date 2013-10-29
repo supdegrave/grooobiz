@@ -11,7 +11,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131016120110) do
+ActiveRecord::Schema.define(version: 20131028113126) do
+
+  create_table "categories", force: true do |t|
+    t.string   "name"
+    t.integer  "parent_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "categories_companies", id: false, force: true do |t|
+    t.integer "category_id"
+    t.integer "company_id"
+  end
+
+  create_table "companies", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "logo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "location_id"
+    t.string   "tagline"
+    t.text     "audience"
+    t.string   "launch_date"
+  end
+
+  create_table "companies_users", id: false, force: true do |t|
+    t.integer "company_id"
+    t.integer "user_id"
+  end
+
+  create_table "locations", force: true do |t|
+    t.string   "name"
+    t.integer  "parent_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "roles", force: true do |t|
     t.string   "name"
@@ -37,7 +73,11 @@ ActiveRecord::Schema.define(version: 20131016120110) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
+    t.binary   "image"
+    t.string   "firstname"
+    t.string   "lastname"
+    t.string   "title"
+    t.string   "avatar"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

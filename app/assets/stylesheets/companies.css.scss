@@ -1,0 +1,8 @@
+// Place all the styles related to the Companies controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+form.edit_company div.field input,
+form.edit_company div.field textarea {
+	width: 90%;
+}

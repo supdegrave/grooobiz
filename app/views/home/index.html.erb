@@ -1,4 +1,37 @@
 <h3>Home</h3>
-<% @users.each do |user| %>
-  <p>User: <%=link_to user.name, user %></p>
+
+<h4>All users</h4>
+<% User.all.each do |u| %>
+<p>
+	<%= link_to image_tag(u.avatar.sprite.url), u %> 
+	<%= link_to u.name, u %>
+</p>
+<% end %>
+
+<hr style="background-color:black; border-top-color:black; color:black;" />
+
+<h4>All companies</h4>
+<% Company.all.each do |c| %>
+	<%= link_to company_path(c), :class => 'noop' do %>
+		<span class="company-card">	
+			<div>
+				<%= image_tag c.logo.thumb.url %>
+				<%= content_tag 'strong', c.name %>
+			</div>
+			<%= content_tag 'div', c.tagline %>
+		<!-- tagline  -->
+		</span>
+	<% end %>
+<% end %>
+
+<hr style="background-color:black; border-top-color:black; color:black;" />
+
+<% if not current_user.nil? %>
+	<h4>My companies</h4>
+	<%= render 'shared/companies_by_role', :locals => { :role => :principal } %>
+	<%= render 'shared/companies_by_role', :locals => { :role => :angel } %>
+	<%= render 'shared/companies_by_role', :locals => { :role => :investor } %>
+
+	<hr style='align:left; width:50%; background-color:black; border-top-color:black; color:black;'>
+	<%= button_to 'Add new company', new_company_path, :method => :get %>
 <% end %>

@@ -1,0 +1,28 @@
+// revoke_role.js.erb 
+
+// TODO: do not allow user with :owner role to be removed
+// TODO: sort selectAddUser options after insertion 
+
+<%= log params.to_s %> 
+
+var divRole = $('<%= %Q(#users_by_role_#{params[:role]}) %>');
+var listItem = $('<%= %Q(##{params[:id]}_#{params[:company_id]}_#{params[:role]}) %>');
+var list = listItem.parent();
+var selectAddUser =  $('<%= %Q(select.#{params[:role]}) %>');
+
+if ('success' == '<%= params['code'] %>') {
+    // remove li element corresponding to user/company/role
+    listItem.remove();
+
+    // refresh select contents to re-add user whose role was revoked
+    var optionUser = $(document.createElement('option')).attr('value', <%= params[:id] %>).text('<%= params[:user_name] %>');
+    selectAddUser.append(optionUser);
+    
+    // insert 'none' li if no users in role
+    if (0 == list.children().length) {
+        list.append("<li>None</li>")
+    }
+}
+else {
+    alert('<%= params['error_message'] %>');
+}

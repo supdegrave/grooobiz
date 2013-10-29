@@ -1,0 +1,34 @@
+<%
+role = locals[:role] 
+invalid_role_message = "Unrecognized role '" + role + "'. Allowed roles => " + @company.allowed_roles.to_s
+raise(RuntimeError, invalid_role_message) if !@company.allowed_roles.include?(role)
+
+action = params['action']
+role_pluralized = role.pluralize
+%>
+	<div id='<%= %Q(users_by_role_#{role}) %>' class='<%= %Q(role #{role}) %>'>
+	<strong><%= role_pluralized.capitalize %></strong>
+	<ul>
+	<% companies = @company.send(role_pluralized) %>
+	<% if companies.count > 0 %>
+		<% companies.each do |user|  %>
+		<li id='<%= %Q(#{user.id}_#{@company.id}_#{role}) %>'>
+		<%= link_to user.name, user %>
+		<% if action == 'edit' %>
+		<%= link_to 'x', 
+				revoke_role_user_path(user.id, company_id: @company.id, role: role),
+				remote: true, 
+				title: :Remove
+		%>
+		<% end %>
+		</li>
+		<% end %>	
+	<% else %>
+		<li>None</li>
+	<% end %>
+	</ul>
+</div>
+
+<% if action == 'edit' %>
+<%= render 'add_role', :role => role %>
+<% end %>
