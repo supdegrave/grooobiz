@@ -1,6 +1,6 @@
 class CompaniesController < ApplicationController
     before_action :set_company, only: [:show, :edit, :update, :destroy]
-    before_filter :authenticate_user! #, except: :home
+    before_filter :authenticate_user!, except: :home
 
     # GET /companies
     # GET /companies.json
@@ -16,6 +16,10 @@ class CompaniesController < ApplicationController
     # GET /companies/new
     def new
         @company = Company.new
+
+        @company.categories = []
+        @company.location = Location.new
+        @company.logo = params[:logo] if params[:logo]
     end
 
     # GET /companies/1/edit
@@ -25,17 +29,21 @@ class CompaniesController < ApplicationController
     # POST /companies
     # POST /companies.json
     def create
-        categories = process_categories
-        location = process_location
-        
+        # categories = process_categories
+        # location = process_location
         @company = Company.new(company_params)
-        @company.categories = categories
-        @company.location = location
+        # @company.categories = categories
+        @company.categories = []
+        
+        # log @company.location.nil? ? 'nil' : @company.location.name, location.name
+        
+        @company.location = Location.new
         
         @company.logo = params[:logo] if params[:logo]
 
         respond_to do |format|
             if @company.save
+                # person who created the company is assigned :owner and :principal roles by default 
                 current_user.add_role :owner, @company
                 current_user.add_role :principal, @company
 
@@ -52,7 +60,6 @@ class CompaniesController < ApplicationController
     # PATCH/PUT /companies/1.json
     def update
         @company.logo = params[:logo] if params[:logo]
-        log params[:logo], @company.logo
         
         if company_params.has_key?('add_role')
             user = User.find(company_params['id'])
@@ -62,7 +69,7 @@ class CompaniesController < ApplicationController
         else
             respond_to do |format|
                 @company.categories = process_categories
-                @company.location = process_location
+                @company.location = process_location if 'true' == params[:location][:dirty]
                 
                 if @company.update(company_params)
                     format.html { redirect_to @company, notice: 'Company was successfully updated.' }
@@ -78,6 +85,7 @@ class CompaniesController < ApplicationController
     # DELETE /companies/1
     # DELETE /companies/1.json
     def destroy
+    
         @company.destroy
         respond_to do |format|
             format.html { redirect_to companies_url }
@@ -88,23 +96,13 @@ class CompaniesController < ApplicationController
     
     protected
     def process_location
-        log 'process_location', params[:company][:location]
-        if loc = params[:company].delete(:location)
-            location = Location.find_or_create_by(name: loc)
-        end    
-        location 
+        Location.find_or_create_by(name: params[:location][:name])
     end
     
     def process_categories
-        log 'process_categories', params[:company][:categories]
-        if category_list = params[:company].delete(:category_list)
-            categories = if !category_list.empty? 
-                category_list.split(',').map { |category| Category.find_or_create_by(name: category.strip) }
-            else
-                []
-            end
-        end
-        categories
+        params[:company].delete(:category_list)
+            .split(',')
+            .map { |category| Category.find_or_create_by(name: category.strip) }
     end
     
 

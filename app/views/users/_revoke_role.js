@@ -1,1 +1,0 @@
-$(alert('_revoke_role.js'););

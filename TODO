@@ -1,17 +1,39 @@
+# set fb profile photo to use stormtrooper image
+# HEROKU
+# why does user admin page /users show all possible role/company combinations in 'change role' dropdown? 
+# load default data (user / company / investor / angel / mentor?) in seeds.rb
+# ¿¿ create various subclasses for the above from < User ?? 
+# what is the difference between #new and #create? 
+
+	
+NOTES FROM KRISTIN DISCUSSION 29/10
+- mentors ? 
+- network map extending from people who like a company 
+- users should be able to send a message to a startup (suggest tweaks to logo, pitch, whatever)
+- allow startups to propose categories, need admin approval 
+- determine what is visible to non-authenticated users (there need to be some teasers)
+
+
+remove company.users 
+	- all company / role / user interaction is managed through rolify 
+
+
 views/companies/add_role
 - convert to :remote model 
 
 views/companies/revoke_role.js.erb 
 	- TODO: do not allow user with :owner role to be removed
 	- TODO: sort selectAddUser options after insertion
+			- use jQuery to get collection of option children under selectAddUser
+			- then sort on User.id 
+			- or store all users in page as json objects, and bind to control (jQuery?)
 
 - ensure that at least one principal / owner exists 
 	- removal of current owner requires assignment of new owner from existing principals 
+	- only owner can delete a company, not a principal 
 
 - integrate location and categories
 	- type-ahead search for each
-
-- image upload with scaling 
 
 - make users searchable for adding to roles 
 - all values: http://railscasts.com/episodes/111-advanced-search-form  
@@ -21,9 +43,6 @@ views/companies/revoke_role.js.erb
 	:update => "userinfo_role_id",
 	:url => {:action => :update_roles},
 	:with => "'department_id='+value") %>
-
-models/company.rb 
-- figure out dynamic method definition code 
 
 - make sure that roles aren't left behind when companies / users are removed 
 	- this means checking whether anyone else has the same role

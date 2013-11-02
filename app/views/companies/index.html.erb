@@ -11,14 +11,6 @@
 	<h4 style='display:inline;'><%= link_to company.name, company %></h4>
 </div>
 <div><%= company.description %></div>
-<div>
-	<%= 'People:' if not company.users.empty? %>
-	<ul>
-	<% company.users.each do |user| %>
-		<li><%= link_to user.name, user %></li>
-	<% end %>
-	</ul>
-</div>
 <br/>
 <% end %>
 

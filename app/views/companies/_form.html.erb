@@ -1,32 +1,32 @@
 <%= form_for(@company) do |f| %>
-<% if @company.errors.any? %>
-<div id="error_explanation">
-	<h2><%= pluralize(@company.errors.count, "error") %> prohibited this company from being saved:</h2>
-	<ul>
-	<% @company.errors.full_messages.each do |msg| %>
-		<li><%= msg %></li>
+	<% if @company.errors.any? %>
+	<div id="error_explanation">
+		<h2><%= pluralize(@company.errors.count, "error") %> prohibited this company from being saved:</h2>
+		<ul>
+			<% @company.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+			<% end %>
+		</ul>
+	</div>
 	<% end %>
-	</ul>
-</div>
-<% end %>
 
-<div class="field">
-	<div>Company Name</div>
-	<%= f.text_field :name, :placeholder => 'Company Name' %>
-</div>
-<!-- location_id: integer -->
-<div class="field">
-	<div>Tagline / Pitch</div>
-	<%= f.text_field :tagline, :placeholder => 'Tagline (or Pitch)' %>
-</div>
-<div class="field">
-	<div>Description</div>
-	<%= f.text_area :description, :placeholder => 'Description' %>
-</div>
-<div class="field">
-	<div>Audience</div>
-	<%= f.text_field :audience, :placeholder => 'Audience' %>
-</div>
+	<div class="field">
+		<div>Company Name</div>
+		<%= f.text_field :name, :placeholder => 'Company Name' %>
+	</div>
+
+	<div class="field">
+		<div>Tagline / Pitch</div>
+		<%= f.text_field :tagline, :placeholder => 'Tagline (or Pitch)' %>
+	</div>
+	<div class="field">
+		<div>Description</div>
+		<%= f.text_area :description, :placeholder => 'Description' %>
+	</div>
+	<div class="field">
+		<div>Audience</div>
+		<%= f.text_field :audience, :placeholder => 'Audience' %>
+	</div>
 
 <!-- TODO: convert to Month/Year picker -->
 <div class="field">
@@ -36,11 +36,16 @@
 
 <!-- TODO: convert this from simple text field to lookup UI --> 
 <div class="field">
+<%= fields_for @company.location do |location_fields| %>
 	<div>Location</div>
-	<%= f.text_field :location, :placeholder => 'Location (such as: London, UK)' %>
+	<%= location_fields.text_field :name, 
+		:placeholder => 'Location (such as: London, UK)', 
+		:onchange => "$('#location_dirty').val(this.defaultValue != this.value.trim());" %>
+	<%= location_fields.hidden_field :dirty, :value => false %>
+<% end %>
 </div>
 
-<!-- TODO: convert this to rendering separate x-to-delete (like angels etc) items -->
+<!-- TODO: convert this to rendering individual x-to-delete (like angels etc) items -->
 <!-- 	   this will allow removal of 'def category_list' on Company model -->
 <!-- 	   but will require a new add model -->
 <div class="field">

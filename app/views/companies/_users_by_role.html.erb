@@ -6,7 +6,7 @@ raise(RuntimeError, invalid_role_message) if !@company.allowed_roles.include?(ro
 action = params['action']
 role_pluralized = role.pluralize
 %>
-	<div id='<%= %Q(users_by_role_#{role}) %>' class='<%= %Q(role #{role}) %>'>
+<div id='<%= %Q(users_by_role_#{role}) %>' class='<%= %Q(role #{role}) %>'>
 	<strong><%= role_pluralized.capitalize %></strong>
 	<ul>
 	<% companies = @company.send(role_pluralized) %>

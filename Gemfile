@@ -26,3 +26,7 @@ group :development do
   gem 'quiet_assets'
   gem 'rails_layout'
 end
+
+# site5 error on 'bundle install'
+# `mri_20` is not a valid platform. The available options are: 
+# [:ruby_18, :ruby, :jruby, :ruby_19, :mswin, :mri, :mingw, :mri_18, :mingw_18, :mri_19, :mingw_19, :rbx]

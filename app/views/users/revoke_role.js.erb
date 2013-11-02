@@ -2,6 +2,8 @@
 
 // TODO: do not allow user with :owner role to be removed
 // TODO: sort selectAddUser options after insertion 
+// TODO: better error handling 
+// TODO: consider sending role collections as json objects, which could make it easier to insert / sort / etc. 
 
 <%= log params.to_s %> 
 
@@ -10,7 +12,7 @@ var listItem = $('<%= %Q(##{params[:id]}_#{params[:company_id]}_#{params[:role]}
 var list = listItem.parent();
 var selectAddUser =  $('<%= %Q(select.#{params[:role]}) %>');
 
-if ('success' == '<%= params['code'] %>') {
+<% if 'success' == params['code'] %> %>
     // remove li element corresponding to user/company/role
     listItem.remove();
 
@@ -22,7 +24,6 @@ if ('success' == '<%= params['code'] %>') {
     if (0 == list.children().length) {
         list.append("<li>None</li>")
     }
-}
-else {
+<% else %>
     alert('<%= params['error_message'] %>');
-}
+<% end %> 
