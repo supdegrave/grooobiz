@@ -4,6 +4,9 @@
 # load default data (user / company / investor / angel / mentor?) in seeds.rb
 # ¿¿ create various subclasses for the above from < User ?? 
 # what is the difference between #new and #create? 
+# figure out heroku assets
+	- http://viget.com/extend/fixing-missing-assets-with-rails-4-on-heroku
+
 
 
 Rails documentation tricks! 

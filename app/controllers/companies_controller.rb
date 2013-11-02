@@ -29,15 +29,11 @@ class CompaniesController < ApplicationController
     # POST /companies
     # POST /companies.json
     def create
-        # categories = process_categories
-        # location = process_location
+        categories = process_categories
+        location = process_location
         @company = Company.new(company_params)
-        # @company.categories = categories
-        @company.categories = []
-        
-        # log @company.location.nil? ? 'nil' : @company.location.name, location.name
-        
-        @company.location = Location.new
+        @company.categories = categories
+        @company.location = location
         
         @company.logo = params[:logo] if params[:logo]
 
